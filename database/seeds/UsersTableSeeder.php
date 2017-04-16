@@ -11,6 +11,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        // Create User with conversation
+        factory(App\User::class, 5)->create();
     }
 }

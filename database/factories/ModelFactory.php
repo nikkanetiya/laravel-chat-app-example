@@ -20,5 +20,18 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
+        'image' => $faker->randomElement(['profile-1.png', 'profile-2.png', 'profile-3.png']) // Use default image for now
+    ];
+});
+
+$factory->define(App\Conversation::class, function (Faker\Generator $faker) {
+    return [
+        'message' => $faker->realText(50),
+        'user_id' => function() {
+            return App\User::inRandomOrder()->limit(1)->value('id');
+        },
+        'sender_id' => function (array $conversation) {
+            return App\User::where('id', '!=', $conversation['user_id'])->inRandomOrder()->limit(1)->value('id');
+        }
     ];
 });
