@@ -19,6 +19,8 @@ class ChatController extends Controller
         // Get all other users
         $users = $user->exceptMe($user->id)->get();
 
+        // Add all conversation with each user, for now
+        // Need to apply lazy loading later on
         $userWithConversations = $users->each(function ($item, $key) use($user) {
             $item->conversations = $user->conversationWithUser($item->id)->get()->toArray();
         });
