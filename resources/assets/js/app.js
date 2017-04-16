@@ -14,6 +14,5 @@ require('./bootstrap');
  */
 
 Vue.component('conversation', require('./components/Conversation.vue'));
-Vue.component('message-textbox', require('./components/MessageTextBox.vue'));
 
 Vue.config.devtools = true;
