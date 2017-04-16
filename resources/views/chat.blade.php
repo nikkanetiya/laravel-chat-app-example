@@ -40,6 +40,75 @@
     </div>
 
     <script src="js/app.js"></script>
+    <script>
+        const now = new Date();
+
+        const app = new Vue({
+            el: '#app',
+            data: {
+                // Current User
+                user: {
+                    name: 'Nikunj',
+                    img: 'images/user1.png'
+                },
+                // All Conversation
+                conversations: [
+                    {
+                        id: 1,
+                        user: {
+                            name: 'John',
+                            img: 'images/user2.png'
+                        },
+                        messages: [
+                            {
+                                content: 'Hello, Nik',
+                                date: now,
+                                self: false
+                            }, {
+                                content: 'Hello Henry',
+                                date: now,
+                                self: true
+                            }, {
+                                content: 'How are you?',
+                                date: now,
+                                self: false
+                            }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        user: {
+                            name: 'Henry',
+                            img: 'images/user3.png'
+                        },
+                        messages: [
+                            {
+                                content: 'Hi Nik?',
+                                date: now,
+                                self: false
+                            }
+                        ]
+                    }
+                ],
+                // Set current active chat user
+                currentConversationId: 1,
+                // Filter Key
+                filterKey: ''
+            },
+            computed: {
+                // Get conversation with current selected user
+                conversation: function () {
+                    return this.conversations.find(conversation => conversation.id == this.currentConversationId);
+                }
+            },
+            methods: {
+                // Method for selecting Conversation Session with any particular user
+                selectConversation: function (id) {
+                    this.currentConversationId = id;
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
