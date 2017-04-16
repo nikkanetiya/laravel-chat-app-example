@@ -34,7 +34,7 @@
                 <conversation :conversation="conversation" :user="user"></conversation>
             </div>
             <div class="message">
-                <text :conversation="conversation"></text>
+                <message-textbox :conversation="conversation"></message-textbox>
             </div>
         </div>
     </div>
