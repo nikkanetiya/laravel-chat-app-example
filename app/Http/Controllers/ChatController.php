@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+
 class ChatController extends Controller
 {
     /**
@@ -11,6 +13,16 @@ class ChatController extends Controller
      */
     public function index()
     {
-        return view('chat');
+        // Select Random current user till when don't have login
+        $user = User::select('id', 'name', 'image')->first();
+
+        // Get all other users
+        $users = $user->exceptMe($user->id)->get();
+
+        $userWithConversations = $users->each(function ($item, $key) use($user) {
+            $item->conversations = $user->conversationWithUser($item->id)->get()->toArray();
+        });
+
+        return view('chat', compact('user', 'userWithConversations'));
     }
 }

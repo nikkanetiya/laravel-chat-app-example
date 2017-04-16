@@ -14,4 +14,10 @@ class Conversation extends Model
     protected $fillable = [
         'user_id', 'sender_id', 'message'
     ];
+
+    public function scopeConversationOf($query, $userId)
+    {
+        return $query->where('user_id', $userId)
+                    ->orWhere('sender_id', $userId);
+    }
 }

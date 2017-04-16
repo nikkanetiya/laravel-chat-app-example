@@ -11,6 +11,6 @@ class ConversationssTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Conversation::class, 20)->create();
+        factory(App\Conversation::class, 100)->create();
     }
 }

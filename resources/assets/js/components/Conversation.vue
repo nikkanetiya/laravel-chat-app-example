@@ -1,11 +1,11 @@
 <template>
-    <ul v-if="conversation">
-        <li v-for="item in conversation.messages" class="chat-message">
-            <p class="message-time"><span>{{ item.date | time }}</span></p>
-            <div class="chat" :class="{me : item.self}">
+    <ul v-if="currentConversation">
+        <li v-for="conversation in currentConversation.conversations" class="chat-message">
+            <p class="message-time"><span>{{ conversation.created_at | time }}</span></p>
+            <div class="chat" :class="{me : conversation.sender_id == currentConversation.id}">
                 <img class="user-avatar" width="30" height="30"
-                     :src="item.self ? user.img : conversation.user.img">
-                <div class="text">{{item.content}}</div>
+                     :src="conversation.sender_id == currentConversation.id ? me.image_url : currentConversation.image_url">
+                <div class="text">{{conversation.message}}</div>
             </div>
         </li>
     </ul>
@@ -13,13 +13,11 @@
 
 <script>
     export default {
-        props: ['conversation', 'user'],
+        props: ['currentConversation', 'me'],
         filters: {
             // Get hour:minutes from date
             time (date) {
-                if (typeof date === 'string') {
-                    date = new Date(date);
-                }
+                date = new Date(date);
                 return date.getHours() + ':' + date.getMinutes();
             }
         }

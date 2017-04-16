@@ -14,16 +14,16 @@
             <!-- User Listing Container -->
             <div class="me">
                 <header>
-                    <img class="user-avatar" width="40" height="40" :alt="user.name" :src="user.img">
-                    <p class="user-name">@{{ user.name }}</p>
+                    <img class="user-avatar" width="40" height="40" :alt="me.name" :src="me.image_url">
+                    <p class="user-name">@{{ me.name }}</p>
                 </header>
             </div>
             <div class="user-list">
                 <ul>
-                    <li v-for="item in conversations" :class="{ active: item.id === currentConversationId }"
-                    @click="selectConversation(item.id)">
-                        <img class="user-avatar" width="30" height="30" :alt="item.user.name" :src="item.user.img">
-                        <p class="user-name">@{{ item.user.name }}</p>
+                    <li v-for="user in users" :class="{ active: user.id === conversationUserId }"
+                    @click="selectConversation(user.id)">
+                        <img class="user-avatar" width="30" height="30" :alt="user.name" :src="user.image_url">
+                        <p class="user-name">@{{ user.name }}</p>
                     </li>
                 </ul>
             </div>
@@ -31,10 +31,10 @@
         <div class="main">
             <!-- Main Chat Container -->
             <div class="chat-window">
-                <conversation :conversation="conversation" :user="user"></conversation>
+                <conversation :current-conversation="currentConversation" :me="me"></conversation>
             </div>
             <div class="message">
-                <message-textbox :conversation="conversation"></message-textbox>
+                <textarea v-model="messageText" @keyup.enter="sendMessage" placeholder="Press Enter to send message"></textarea>
             </div>
         </div>
     </div>
@@ -47,64 +47,36 @@
             el: '#app',
             data: {
                 // Current User
-                user: {
-                    name: 'Nikunj',
-                    img: 'images/user1.png'
-                },
+                me: {!! $user->toJSON() !!},
                 // All Conversation
-                conversations: [
-                    {
-                        id: 1,
-                        user: {
-                            name: 'John',
-                            img: 'images/user2.png'
-                        },
-                        messages: [
-                            {
-                                content: 'Hello, Nik',
-                                date: now,
-                                self: false
-                            }, {
-                                content: 'Hello Henry',
-                                date: now,
-                                self: true
-                            }, {
-                                content: 'How are you?',
-                                date: now,
-                                self: false
-                            }
-                        ]
-                    },
-                    {
-                        id: 2,
-                        user: {
-                            name: 'Henry',
-                            img: 'images/user3.png'
-                        },
-                        messages: [
-                            {
-                                content: 'Hi Nik?',
-                                date: now,
-                                self: false
-                            }
-                        ]
-                    }
-                ],
+                users: {!! $userWithConversations->toJSON() !!},
                 // Set current active chat user
-                currentConversationId: 1,
-                // Filter Key
+                conversationUserId: 1,
+                messageText: '',
+                // Filter Key, for filter purpose
                 filterKey: ''
             },
             computed: {
                 // Get conversation with current selected user
-                conversation: function () {
-                    return this.conversations.find(conversation => conversation.id == this.currentConversationId);
+                currentConversation: function () {
+                    return this.users.find(currentConversation => currentConversation.id == this.conversationUserId);
                 }
             },
             methods: {
                 // Method for selecting Conversation Session with any particular user
                 selectConversation: function (id) {
-                    this.currentConversationId = id;
+                    this.conversationUserId = id;
+                },
+                // Add message in conversations stack, just push to javascript object for now
+                // Add core here to trigger api later on
+                sendMessage: function() {
+                    this.currentConversation.conversations.push({
+                        message: this.messageText,
+                        created_at: new Date(),
+                        sender_id: this.conversationUserId,
+                        user_id: this.me.id
+                    });
+                    this.messageText = '';
                 }
             }
         });
