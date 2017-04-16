@@ -14,7 +14,7 @@ class ChatController extends Controller
     public function index()
     {
         // Select Random current user till when don't have login
-        $user = User::select('id', 'name', 'image')->first();
+        $user = User::select('id', 'name', 'image')->inRandomOrder()->first();
 
         // Get all other users
         $users = $user->exceptMe($user->id)->get();
