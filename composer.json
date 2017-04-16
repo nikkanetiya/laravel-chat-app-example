@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "nikkanetiya/laravel-chat-app-example",
+    "description": "Example Project for Realtime Chat App using Laravel, VueJS, Event Broadcast.",
+    "keywords": ["laravel", "chat app", "vuejs", "broadcast"],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -10,9 +10,6 @@
         "laravel/tinker": "~1.0"
     },
     "require-dev": {
-        "fzaninotto/faker": "~1.4",
-        "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.7"
     },
     "autoload": {
         "classmap": [
