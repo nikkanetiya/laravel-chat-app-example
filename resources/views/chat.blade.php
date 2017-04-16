@@ -34,7 +34,7 @@
                 <conversation :current-conversation="currentConversation" :me="me"></conversation>
             </div>
             <div class="message">
-                <textarea v-model="messageText" @keyup.enter="sendMessage" placeholder="Press Enter to send message"></textarea>
+                <textarea v-show="conversationUserId" v-model="messageText" @keyup.enter="sendMessage" placeholder="Press Enter to send message"></textarea>
             </div>
         </div>
     </div>
@@ -51,7 +51,7 @@
                 // All Conversation
                 users: {!! $userWithConversations->toJSON() !!},
                 // Set current active chat user
-                conversationUserId: 1,
+                conversationUserId: null,
                 messageText: '',
                 // Filter Key, for filter purpose
                 filterKey: ''
