@@ -1,6 +1,9 @@
 // Variables
 @import "variables";
 
+// Bootstrap
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
 * {
   box-sizing: border-box;
   &:before, &:after {
@@ -47,6 +50,16 @@ ul {
   .me {
     padding: 12px;
     border-bottom: 1px solid #24272c;
+    header {
+      .logout {
+        margin-top: 5px;
+        a {
+          margin: 0;
+          padding-top: 10px;
+          cursor: pointer;
+        }
+      }
+    }
   }
 }
 

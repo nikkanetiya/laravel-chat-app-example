@@ -16,3 +16,4 @@ require('./bootstrap');
 Vue.component('conversation', require('./components/Conversation.vue'));
 
 Vue.config.devtools = true;
+Vue.prototype.$http = axios;

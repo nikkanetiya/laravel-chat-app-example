@@ -6,6 +6,9 @@
     <title>Laravel Chat App</title>
 
     <link rel="stylesheet" media="all" href="css/app.css">
+    <script>
+        window.csrfToken = "{!! csrf_token() !!}";
+    </script>
 </head>
 
 <body>
@@ -16,6 +19,15 @@
                 <header>
                     <img class="user-avatar" width="40" height="40" :alt="me.name" :src="me.image_url">
                     <p class="user-name">@{{ me.name }}</p>
+                    <div class="logout">
+                        <a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                    </div>
+                    <form id="logout-form"
+                          action="{{ url('/logout') }}"
+                          method="POST"
+                          style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
                 </header>
             </div>
             <div class="user-list">
@@ -76,6 +88,12 @@
                         sender_id: this.conversationUserId,
                         user_id: this.me.id
                     });
+
+                    axios.get('/api/user')
+                        .then(response => {
+                            console.log(response.data);
+                        });
+
                     this.messageText = '';
                 }
             }
