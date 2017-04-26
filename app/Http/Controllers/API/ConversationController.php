@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Conversation;
+use App\Events\ConversationEvent;
 use App\Http\Requests\ConversationRequest;
 
 /**
@@ -20,7 +21,9 @@ class ConversationController extends BaseAPIController
 
         $data['sender_id'] = auth()->id();
 
-        if(Conversation::create($data)) {
+        if($conversation = Conversation::create($data)) {
+
+            event(new ConversationEvent($conversation));
             return $this->responseSuccess();
         }
 

@@ -54,6 +54,8 @@
     </div>
 
     <script src="js/app.js"></script>
+    <script src="https://js.pusher.com/4.0/pusher.min.js"></script>
+
     <script>
         const now = new Date();
 
@@ -118,6 +120,25 @@
                         });
                 }
             }
+        });
+    </script>
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher("{{ env('PUSHER_APP_KEY') }}", {
+            cluster: 'ap2',
+            encrypted: true
+        });
+
+        var channel = pusher.subscribe("user-{{ auth()->id() }}");
+        channel.bind('conversation.received', function(response) {
+
+            // For now, just change focus, until we don't have notification bar
+            app.currentConversationId = response.conversation.sender_id;
+
+            // Add newly received conversation
+            app.currentConversation.conversations.push(response.conversation);
         });
     </script>
 </body>
