@@ -8,6 +8,7 @@
     <link rel="stylesheet" media="all" href="css/app.css">
     <script>
         window.csrfToken = "{!! csrf_token() !!}";
+        window.userApiToken = "{!! auth()->user()->api_token !!}"
     </script>
 </head>
 
