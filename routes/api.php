@@ -21,4 +21,5 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
     });
 
     Route::post('conversation', 'ConversationController@store');
+    Route::get('conversations/{userId}', 'ConversationController@getConversations');
 });

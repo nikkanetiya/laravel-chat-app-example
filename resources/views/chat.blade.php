@@ -80,8 +80,19 @@
                 // Method for selecting Conversation Session with any particular user
                 selectConversation: function (id) {
                     this.conversationUserId = id;
+
+                    if(this.currentConversation.conversations.length == 0) {
+                       var that = this;
+
+                        axios.get('conversations/' + this.conversationUserId)
+                            .then(response => {
+
+                                that.currentConversation.conversations = response.data.data.conversations;
+                            }).catch(function (error) {
+                                alert('Something went wrong!!');
+                            });
+                    }
                 },
-                // Add message in conversations stack, just push to javascript object for now
                 // Add core here to trigger api later on
                 sendMessage: function() {
                     var that = this;

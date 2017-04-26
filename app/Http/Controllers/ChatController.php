@@ -23,7 +23,7 @@ class ChatController extends Controller
         // Add all conversation with each user, for now
         // Need to apply lazy loading later on
         $userWithConversations = $users->each(function ($item, $key) use($user) {
-            $item->conversations = $user->conversationWithUser($item->id)->get()->toArray();
+            $item->conversations = [];
         });
 
         return view('chat', compact('user', 'userWithConversations'));
