@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-
+/**
+ * Class ChatController
+ * @package App\Http\Controllers
+ */
 class ChatController extends Controller
 {
     /**
@@ -13,8 +15,7 @@ class ChatController extends Controller
      */
     public function index()
     {
-        // Select Random current user till when don't have login
-        $user = User::select('id', 'name', 'image')->inRandomOrder()->first();
+        $user = auth()->user();
 
         // Get all other users
         $users = $user->exceptMe($user->id)->get();

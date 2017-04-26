@@ -2,9 +2,9 @@
     <ul v-if="currentConversation">
         <li v-for="conversation in currentConversation.conversations" class="chat-message">
             <p class="message-time"><span>{{ conversation.created_at | time }}</span></p>
-            <div class="chat" :class="{me : conversation.sender_id == currentConversation.id}">
+            <div class="chat" :class="{me : conversation.sender_id == me.id}">
                 <img class="user-avatar" width="30" height="30"
-                     :src="conversation.sender_id == currentConversation.id ? me.image_url : currentConversation.image_url">
+                     :src="conversation.sender_id == me.id ? me.image_url : currentConversation.image_url">
                 <div class="text">{{conversation.message}}</div>
             </div>
         </li>

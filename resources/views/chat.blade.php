@@ -8,7 +8,8 @@
     <link rel="stylesheet" media="all" href="css/app.css">
     <script>
         window.csrfToken = "{!! csrf_token() !!}";
-        window.userApiToken = "{!! auth()->user()->api_token !!}"
+        window.userApiToken = "{!! auth()->user()->api_token !!}";
+        window.baseUrl = "{!! url('api') !!}";
     </script>
 </head>
 
@@ -83,19 +84,27 @@
                 // Add message in conversations stack, just push to javascript object for now
                 // Add core here to trigger api later on
                 sendMessage: function() {
-                    this.currentConversation.conversations.push({
-                        message: this.messageText,
-                        created_at: new Date(),
-                        sender_id: this.conversationUserId,
-                        user_id: this.me.id
-                    });
+                    var that = this;
 
-                    axios.get('/api/user')
+                    axios.post('conversation', {
+                            user_id: this.conversationUserId,
+                            message: this.messageText
+                        })
                         .then(response => {
-                            console.log(response.data);
-                        });
 
-                    this.messageText = '';
+                            // Push message to local stack
+                            that.currentConversation.conversations.push({
+                                message: that.messageText,
+                                created_at: new Date(),
+                                sender_id: that.me.id,
+                                user_id: that.conversationUserId
+                            });
+
+                            that.messageText = '';
+                        })
+                        .catch(function (error) {
+                            alert('Something went wrong!!');
+                        });
                 }
             }
         });
