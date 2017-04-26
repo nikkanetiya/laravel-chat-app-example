@@ -15,12 +15,27 @@ class User extends Authenticatable
     public $appends = ['image_url'];
 
     /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function($model)
+        {
+            $model->api_token = $model->generateAPIToken();
+        });
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'image'
+        'name', 'email', 'password', 'image', 'api_token'
     ];
 
     /**
@@ -92,5 +107,14 @@ class User extends Authenticatable
     public function messagesReceived()
     {
         return $this->hasMany(Conversation::class, 'user_id');
+    }
+
+    /**
+     * Generate API token
+     * @return string
+     */
+    protected function generateAPIToken()
+    {
+        return bin2hex(openssl_random_pseudo_bytes(16));
     }
 }
