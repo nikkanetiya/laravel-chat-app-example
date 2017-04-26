@@ -27,6 +27,12 @@ class ConversationController extends BaseAPIController
         return $this->responseError();
     }
 
+    /**
+     * Get conversation with user
+     *
+     * @param $userId
+     * @return \Illuminate\Http\JsonResponse
+     */
     function getConversations($userId)
     {
         $user = auth()->user();
